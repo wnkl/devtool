@@ -2,24 +2,12 @@ import { useEffect, useState } from 'react'
 import { List } from './list'
 import { Search } from './search'
 import qs from 'qs'
-import { cleanObject } from 'utils'
+import { cleanObject, useDebounce } from 'utils'
 
 export const ProjectListPanel = () => {
   const [list, setList] = useState([])
   const [users, setUsers] = useState([])
   let [search, setSearch] = useState({ name: '', personId: '' })
-  const useDebounce = (obj, delay) => {
-    const [debounceValue, setDebounceValue] = useState()
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        setDebounceValue(obj)
-      }, delay)
-      return () => {
-        clearTimeout(timeout)
-      }
-    }, [obj, delay])
-    return debounceValue
-  }
   const debounceParam = useDebounce(search, 1000)
   useEffect(() => {
     fetch(

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 export const cleanObject = (obj) => {
   const value = { ...obj }
   Object.keys(value).forEach((item) => {
@@ -6,4 +8,17 @@ export const cleanObject = (obj) => {
     }
   })
   return value
+}
+
+export const useDebounce = (obj, delay) => {
+  const [debounceValue, setDebounceValue] = useState()
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebounceValue(obj)
+    }, delay)
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [obj, delay])
+  return debounceValue
 }
