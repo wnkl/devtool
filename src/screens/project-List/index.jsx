@@ -8,13 +8,28 @@ export const ProjectListPanel = () => {
   const [list, setList] = useState([])
   const [users, setUsers] = useState([])
   let [search, setSearch] = useState({ name: '', personId: '' })
+  const useDebounce = (obj, delay) => {
+    const [debounceValue, setDebounceValue] = useState()
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        setDebounceValue(obj)
+      }, delay)
+      return () => {
+        clearTimeout(timeout)
+      }
+    }, [obj, delay])
+    return debounceValue
+  }
+  const debounceParam = useDebounce(search, 1000)
   useEffect(() => {
     fetch(
-      `http://localhost:3001/projects?${qs.stringify(cleanObject(search))}`
+      `http://localhost:3001/projects?${qs.stringify(
+        cleanObject(debounceParam)
+      )}`
     ).then(async (res) => {
       setList(await res.json())
     })
-  }, [search])
+  }, [debounceParam])
   useEffect(() => {
     fetch('http://localhost:3001/users').then(async (res) => {
       setUsers(await res.json())
