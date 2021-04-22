@@ -4,6 +4,7 @@ import { Search } from './search'
 import qs from 'qs'
 import { cleanObject, useDebounce } from 'utils'
 
+const apiUrl = process.env.REACT_APP_API_URL
 export const ProjectListPanel = () => {
   const [list, setList] = useState([])
   const [users, setUsers] = useState([])
@@ -11,15 +12,13 @@ export const ProjectListPanel = () => {
   const debounceParam = useDebounce(search, 1000)
   useEffect(() => {
     fetch(
-      `http://localhost:3001/projects?${qs.stringify(
-        cleanObject(debounceParam)
-      )}`
+      `${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`
     ).then(async (res) => {
       setList(await res.json())
     })
   }, [debounceParam])
   useEffect(() => {
-    fetch('http://localhost:3001/users').then(async (res) => {
+    fetch(`${apiUrl}/users`).then(async (res) => {
       setUsers(await res.json())
     })
   }, [])
