@@ -6,8 +6,8 @@ import { Login } from 'screens/login'
 function App() {
   return (
     <div className="App">
-      <ProjectListPanel />
-      {/* <Login /> */}
+      {/* <ProjectListPanel /> */}
+      <Login />
     </div>
   )
 }
